@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spam Classification</title>
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Spam Classification</h2>
+    <input type="file" id="fileInput" accept=".txt">
+    <button id="classifyBtn">Classify</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var classifyBtn = document.getElementById("classifyBtn");
+      var resultElement = document.getElementById("result");
+      var fileInput = document.getElementById("fileInput");
+
+      classifyBtn.addEventListener("click", function() {
+        if (fileInput.files.length === 0) {
+          resultElement.innerText = "Please select a file.";
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          var fileContent = event.target.result;
+          var isSpam = fileContent.toLowerCase().includes("personal details");
+          if (isSpam) {
+            resultElement.innerText = "Spam detected!";
+          } else {
+            resultElement.innerText = "Not spam.";
+          }
+        };
+        reader.readAsText(fileInput.files[0]);
+      });
+    });
+  </script>
+</body>
+</html>
